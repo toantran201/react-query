@@ -9,7 +9,7 @@
     "skipLibCheck": true,
     "esModuleInterop": false,
     "paths": {
-      "@/*": ["src/*"]
+      "~/*": ["src/*"]
     },
     "allowSyntheticDefaultImports": true,
     "strict": true,

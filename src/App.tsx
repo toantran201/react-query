@@ -1,26 +1,20 @@
-import React, { useEffect } from 'react'
-//
-import { Login } from '@/pages'
-import useAxios, { FETCH_STATUS } from '@/hooks/useAxios'
+import React from 'react'
+import Posts from '~/pages/Posts/Posts'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
+
+const queryClient = new QueryClient()
 
 function App() {
-  const { data, error, status, fetchApi } = useAxios<{
-    userId: number
-    id: number
-    title: string
-    body: string
-  }>({
-    data: undefined,
-  })
-
-  useEffect(() => {
-    fetchApi('/posts/1', 'GET')
-  }, [fetchApi])
-
-  if (status === FETCH_STATUS.PENDING) return <h1>Pending</h1>
-  if (status === FETCH_STATUS.REJECTED) return <p>{error?.toString()}</p>
-
-  return <div>{JSON.stringify(data?.title)}</div>
+  return (
+    <QueryClientProvider client={queryClient}>
+      <div style={{ padding: '20px' }}>
+        <h1>Post</h1>
+        <Posts />
+      </div>
+      <ReactQueryDevtools />
+    </QueryClientProvider>
+  )
 }
 
 export default App

@@ -2,7 +2,7 @@ import { useCallback, useLayoutEffect, useReducer, useRef } from 'react'
 import { Method } from 'axios'
 import { stringify } from 'query-string'
 //
-import axiosClient from '@/api'
+import axiosClient from '~/api'
 
 export enum FETCH_STATUS {
   IDLE = 'IDLE',
