@@ -24,7 +24,7 @@ export type AxiosActionReducer = {
 }
 
 // ================ Reducer function ================//
-const axiosReducerFn = <Type,>(state: AxiosInitial<Type>, action: AxiosActionReducer) => {
+export const axiosReducerFn = <Type,>(state: AxiosInitial<Type>, action: AxiosActionReducer) => {
   switch (action.type) {
     case FETCH_STATUS.PENDING: {
       return { status: FETCH_STATUS.PENDING, data: undefined, error: undefined }
@@ -81,5 +81,3 @@ const useAxios = <T,>(
 
   return { ...state, fetchApi, dispatch }
 }
-
-export default useAxios

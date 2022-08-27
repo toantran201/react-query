@@ -1,6 +1,6 @@
 import axios from 'axios'
-
-const BASE_URL = 'https://jsonplaceholder.typicode.com'
+//
+import { BASE_URL } from '~/constants/url'
 
 const axiosClient = axios.create({
   baseURL: BASE_URL,
