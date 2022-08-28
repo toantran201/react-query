@@ -1,9 +1,10 @@
+import { useEffect } from 'react'
 import { Icon, Stack, Text, Image } from '@chakra-ui/react'
 import { GiFlowerPot } from 'react-icons/all'
 //
 import splashImg from '~/assets/images/splash.jpg'
 import { usePrefetchTreatments } from '~/hooks'
-import { useEffect } from 'react'
+
 const HomePage = () => {
   const prefetchTreatments = usePrefetchTreatments()
 

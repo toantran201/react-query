@@ -1,9 +1,9 @@
+import { useCallback } from 'react'
 import { Treatment } from '~/types'
 import axiosClient from '~/api'
 //
 import { useQuery, useQueryClient } from 'react-query'
 import { QUERY_KEYS } from '~/constants/query-keys'
-import { useCallback } from 'react'
 
 const getTreatments = async (): Promise<Treatment[]> => {
   const { data } = await axiosClient.get<Treatment[]>('/treatments')
