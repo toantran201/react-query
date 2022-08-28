@@ -16,6 +16,12 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       onError: queryErrorHandler,
+      staleTime: 600000, // 10 minutes
+      cacheTime: 900000, // 15 minutes
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      retry: 1,
     },
   },
 })

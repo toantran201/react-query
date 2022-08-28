@@ -1,9 +1,10 @@
 import { useCallback } from 'react'
+import { useQuery } from 'react-query'
+//
 import { Treatment } from '~/types'
 import axiosClient from '~/api'
-//
-import { useQuery, useQueryClient } from 'react-query'
 import { QUERY_KEYS } from '~/constants/query-keys'
+import { queryClient } from '~/react-query'
 
 const getTreatments = async (): Promise<Treatment[]> => {
   const { data } = await axiosClient.get<Treatment[]>('/treatments')
@@ -11,21 +12,14 @@ const getTreatments = async (): Promise<Treatment[]> => {
 }
 
 export const useTreatments = (): Treatment[] => {
-  const { data = [] } = useQuery(QUERY_KEYS.TREATMENTS, getTreatments, {
-    refetchOnWindowFocus: false,
-    retry: 1,
-  })
+  const { data = [] } = useQuery(QUERY_KEYS.TREATMENTS, getTreatments)
 
   return data
 }
 
 export const usePrefetchTreatments = () => {
-  const queryClient = useQueryClient()
-
   const prefetchTreatments = useCallback(() => {
-    queryClient.prefetchQuery(QUERY_KEYS.TREATMENTS, getTreatments, {
-      staleTime: 5 * 60 * 1000,
-    })
+    queryClient.prefetchQuery(QUERY_KEYS.TREATMENTS, getTreatments)
   }, [queryClient])
 
   return prefetchTreatments

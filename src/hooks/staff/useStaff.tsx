@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useCallback, useState } from 'react'
 import { useQuery } from 'react-query'
 //
 import { Staff } from '~/types'
@@ -18,9 +18,18 @@ type UseStaff = {
 
 export const useStaff = (): UseStaff => {
   const [filter, setFilter] = useState('all')
-  const { data = [] } = useQuery<Staff[]>([QUERY_KEYS.STAFF, filter], getStaffs, {
+
+  const selectFn = useCallback(
+    (data: Staff[]) => {
+      return data.filter((item) => item.treatmentNames.map((t) => t.toLowerCase()).includes(filter.toLowerCase()))
+    },
+    [filter]
+  )
+
+  const { data = [] } = useQuery<Staff[]>(QUERY_KEYS.STAFF, getStaffs, {
     refetchOnWindowFocus: false,
     retry: 1,
+    select: filter === 'all' ? undefined : selectFn,
   })
 
   return { staffs: data, filter, setFilter }

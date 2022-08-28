@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import { useQuery } from 'react-query'
 //
@@ -8,6 +8,7 @@ import { useCustomToast, useUser } from '~/hooks'
 import { QUERY_KEYS } from '~/constants/query-keys'
 import axiosClient from '~/api'
 import { queryClient } from '~/react-query'
+import { getAvailableAppointments } from '~/pages/appointments/helpers'
 
 type UseAppointments = {
   appointments: AppointmentDateMap
@@ -27,7 +28,7 @@ export const useAppointments = (): UseAppointments => {
   const currentMonthYear = getMonthYearDetails(dayjs())
   const { user } = useUser()
   const [monthYear, setMonthYear] = useState(currentMonthYear)
-  const [showAll, setShowAll] = useState(false)
+  const [showAll, setShowAll] = useState(true)
 
   useEffect(() => {
     const newMonthYear = getNewMonthYear(monthYear, 1)
@@ -36,6 +37,8 @@ export const useAppointments = (): UseAppointments => {
       () => getAppointments(newMonthYear.year, newMonthYear.month),
       {
         retry: 1,
+        staleTime: 0,
+        cacheTime: 300000,
       }
     )
   }, [queryClient, monthYear])
@@ -45,12 +48,20 @@ export const useAppointments = (): UseAppointments => {
     setMonthYear((prevData) => getNewMonthYear(prevData, monthIncrement))
   }
 
+  const selectFn = useCallback((data: AppointmentDateMap) => getAvailableAppointments(data, user), [user])
+
   const { data: appointments = {} } = useQuery<AppointmentDateMap>(
     [QUERY_KEYS.APPOINTMENTS, monthYear.year, monthYear.month],
     () => getAppointments(monthYear.year, monthYear.month),
     {
-      refetchOnWindowFocus: false,
       retry: 1,
+      select: showAll ? undefined : selectFn,
+      staleTime: 0,
+      cacheTime: 300000,
+      refetchOnMount: true,
+      refetchOnReconnect: true,
+      refetchOnWindowFocus: false,
+      refetchInterval: 1000 * 60 * 5,
     }
   )
 
