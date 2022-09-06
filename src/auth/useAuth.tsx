@@ -3,6 +3,7 @@ import axios, { AxiosResponse } from 'axios'
 import axiosClient from '~/api'
 import { User } from '~/types'
 import { useCustomToast, useUser } from '~/hooks'
+import { clearStoredUser } from '~/utils/user-storage'
 
 type UseAuth = {
   signin: (email: string, password: string) => Promise<void>
@@ -58,6 +59,7 @@ export function useAuth(): UseAuth {
 
   const signout = () => {
     clearUser()
+    clearStoredUser()
     toast({
       title: `Logged out`,
       status: 'info',
