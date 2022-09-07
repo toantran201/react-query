@@ -3,6 +3,7 @@ import { useQuery } from 'react-query'
 import { Appointment, User } from '~/types'
 import axiosClient from '~/api'
 import { useUser } from '~/hooks'
+import { QUERY_KEYS } from '~/constants/query-keys'
 
 const getUserAppointments = async (user: User | null): Promise<Appointment[] | null> => {
   if (!user) return null
@@ -19,9 +20,13 @@ export const useUserAppointments = (): Appointment[] => {
   const { user } = useUser()
   const fallback: Appointment[] = []
 
-  const { data: userAppointments = fallback } = useQuery('user-appointment', () => getUserAppointments(user), {
-    enabled: !!user,
-  })
+  const { data: userAppointments = fallback } = useQuery(
+    [QUERY_KEYS.APPOINTMENTS, QUERY_KEYS.USER, user?.id],
+    () => getUserAppointments(user),
+    {
+      enabled: !!user,
+    }
+  )
 
   return userAppointments as Appointment[]
 }

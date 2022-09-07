@@ -53,7 +53,13 @@ const UserAppointments = () => {
       <Heading mt={10} textAlign="center">
         Your appointments
       </Heading>
-      <Center>{userAppointments.length > 0 ? <></> : <Link to="/Calendar">Book an appointment</Link>}</Center>
+      <Center>
+        {userAppointments.length > 0 ? (
+          <AppointmentsTable userAppointments={userAppointments} />
+        ) : (
+          <Link to="/Calendar">Book an appointment</Link>
+        )}
+      </Center>
     </Box>
   )
 }

@@ -12,13 +12,14 @@ type UseUser = {
   clearUser: () => void
 }
 
-const getUser = async (user: User | null | undefined): Promise<User | null> => {
+const getUser = async (user: User | null | undefined, signal: AbortSignal): Promise<User | null> => {
   if (!user) return null
   const { data }: AxiosResponse<{ user: User }> = await axiosClient.get<{ user: User }>(`/user/${user.id}`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${user.token as string}`,
     },
+    signal,
   })
   return data.user
 }
@@ -28,7 +29,7 @@ export const useUser = (): UseUser => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  const { data } = useQuery<User | null>(QUERY_KEYS.USER, () => getUser(data), {
+  const { data } = useQuery<User | null>(QUERY_KEYS.USER, ({ signal }) => getUser(data, signal), {
     initialData: getStoredUser,
     onSuccess: (received: null | User) => {
       if (!received) {
@@ -47,7 +48,7 @@ export const useUser = (): UseUser => {
   const clearUser = () => {
     //
     queryClient.setQueryData(QUERY_KEYS.USER, null)
-    queryClient.removeQueries('user-appointment')
+    queryClient.removeQueries([QUERY_KEYS.APPOINTMENTS, QUERY_KEYS.USER])
   }
 
   return {

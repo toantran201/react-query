@@ -5,6 +5,7 @@ import { TiArrowLeftThick, TiArrowRightThick } from 'react-icons/all'
 import { useAppointments } from '~/hooks'
 //
 import DateBox from './components/DateBox'
+import { UserAppointments } from '~/components'
 
 const Calendar = () => {
   const currentDate = dayjs()
@@ -43,6 +44,7 @@ const Calendar = () => {
           i > 0 ? <DateBox key={i} date={i + 1} appointments={appointments[i + 1]} /> : null
         )}
       </Grid>
+      <UserAppointments />
     </Box>
   )
 }

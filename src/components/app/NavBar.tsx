@@ -50,7 +50,7 @@ const NavBar = () => {
         <HStack>
           {user ? (
             <>
-              <NavLink to={`/user/${user.id}`}>{user.email}</NavLink>
+              <NavLink to={`/user/${user.id}`}>{user.name}</NavLink>
               <Button onClick={() => signout()}>Sign out</Button>
             </>
           ) : (

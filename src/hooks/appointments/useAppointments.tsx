@@ -2,9 +2,9 @@ import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'reac
 import dayjs from 'dayjs'
 import { useQuery } from 'react-query'
 //
-import { Appointment, AppointmentDateMap, MonthYear } from '~/types'
+import { AppointmentDateMap, MonthYear } from '~/types'
 import { getMonthYearDetails, getNewMonthYear } from '~/utils/month-year'
-import { useCustomToast, useUser } from '~/hooks'
+import { useUser } from '~/hooks'
 import { QUERY_KEYS } from '~/constants/query-keys'
 import axiosClient from '~/api'
 import { queryClient } from '~/react-query'
@@ -66,15 +66,4 @@ export const useAppointments = (): UseAppointments => {
   )
 
   return { appointments, monthYear, updateMonthYear, showAll, setShowAll }
-}
-
-type AppointmentMutationFunction = (appointment: Appointment) => void
-export const useReserveAppointment = (): AppointmentMutationFunction => {
-  const { user } = useUser()
-  const toast = useCustomToast()
-
-  // TODO: replace with mutate function
-  return (appointment: Appointment) => {
-    // nothing to see here
-  }
 }
