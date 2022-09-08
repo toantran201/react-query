@@ -58,7 +58,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .tsx,.ts --ignore .eslintignore",
-    "lint:fix": "eslint src/* --fix --ignore-path .eslintignore",
+    "lint:fix": "yarn lint --fix",
     "prettier": "npx prettier src --check",
     "prettier:fix": "npx prettier src --write",
     "test": "vitest",
