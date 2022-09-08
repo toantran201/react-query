@@ -5,7 +5,10 @@ import { faker } from '@faker-js/faker'
 import { customRender as render, userEvent, screen } from '~/utils/test'
 import { waitForElementToBeRemoved } from '@testing-library/react'
 
-const buildLoginFormData = (overrides?: { username?: string; password?: string }): { username: string; password: string } => {
+const buildLoginFormData = (overrides?: {
+  username?: string
+  password?: string
+}): { username: string; password: string } => {
   return {
     username: faker.internet.userName(),
     password: faker.internet.password(),

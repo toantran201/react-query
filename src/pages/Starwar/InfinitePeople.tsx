@@ -11,14 +11,13 @@ const fetchUrl = async (url: string) => {
 }
 
 const InfinitePeople = () => {
-  const { data, fetchNextPage, hasNextPage, isLoading, isError, isFetchingNextPage } = useInfiniteQuery<{ results: Person[]; next: string }>(
-    'sw-people',
-    ({ pageParam = INIT_URL }) => fetchUrl(pageParam as string),
-    {
-      refetchOnWindowFocus: false,
-      getNextPageParam: (lastPage) => lastPage.next || undefined,
-    }
-  )
+  const { data, fetchNextPage, hasNextPage, isLoading, isError, isFetchingNextPage } = useInfiniteQuery<{
+    results: Person[]
+    next: string
+  }>('sw-people', ({ pageParam = INIT_URL }) => fetchUrl(pageParam as string), {
+    refetchOnWindowFocus: false,
+    getNextPageParam: (lastPage) => lastPage.next || undefined,
+  })
 
   const loadMore = () => {
     fetchNextPage()
