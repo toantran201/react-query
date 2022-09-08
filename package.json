@@ -68,6 +68,7 @@
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,js,jsx}": [
+      "yarn run prettier:fix",
       "yarn run lint:fix"
     ]
   }
